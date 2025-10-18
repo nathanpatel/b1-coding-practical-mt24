@@ -101,6 +101,8 @@ class Mission:
         cave_height = df["cave_height"].to_numpy(dtype=float)
         cave_depth = df["cave_depth"].to_numpy(dtype=float)
         
+        return cls(reference, cave_height, cave_depth)
+
 
 class ClosedLoop:
     def __init__(self, plant: Submarine, controller):
