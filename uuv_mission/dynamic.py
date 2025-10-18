@@ -2,7 +2,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 import numpy as np
 import matplotlib.pyplot as plt
-from .terrain import generate_reference_and_limits
+import pandas as pd  # for reading mission.csv
+try:
+    # when used as a package
+    from .terrain import generate_reference_and_limits
+except ImportError:
+    # when run as a script
+    from terrain import generate_reference_and_limits    
 
 class Submarine:
     def __init__(self):
@@ -76,7 +82,26 @@ class Mission:
     @classmethod
     def from_csv(cls, file_name: str):
         # You are required to implement this method
-        pass
+
+        """
+        Load mission data from a CSV with columns: reference, cave_height, cave_depth
+        Returns: Mission(reference, cave_height, cave_depth) as numpy arrays.
+        """
+        
+        # Load the CSV into a DataFrame, df
+        df = pd.read_csv('/Users/nathanpatel/Desktop/3rd Year Oxford Engineering/B1/B1_Coding_Practical/b1-coding-practical-mt24/data/mission.csv')
+        
+        # checking that the required columns are present 
+        required = ["reference", "cave_height", "cave_depth"]
+        if not all(col in df.columns for col in required):
+            raise ValueError(f"CSV must contain columns: {required}")
+        
+        # convert to 1D NumPy arrays (float)
+        reference = df["reference"].to_numpy(dtype=float)
+        cave_height = df["cave_height"].to_numpy(dtype=float)
+        cave_depth = df["cave_depth"].to_numpy(dtype=float)
+        
+        return cls(reference, cave_height, cave_depth)
 
 
 class ClosedLoop:
