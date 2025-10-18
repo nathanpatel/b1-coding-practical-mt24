@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd  # for reading mission.csv
 try:
     # when used as a package
     from .terrain import generate_reference_and_limits
@@ -82,7 +83,6 @@ class Mission:
     def from_csv(cls, file_name: str):
         # You are required to implement this method
         pass
-
 
 class ClosedLoop:
     def __init__(self, plant: Submarine, controller):
