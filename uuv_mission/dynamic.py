@@ -96,6 +96,11 @@ class Mission:
         if not all(col in df.columns for col in required):
             raise ValueError(f"CSV must contain columns: {required}")
         
+        # convert to 1D NumPy arrays (float)
+        reference = df["reference"].to_numpy(dtype=float)
+        cave_height = df["cave_height"].to_numpy(dtype=float)
+        cave_depth = df["cave_depth"].to_numpy(dtype=float)
+        
 
 class ClosedLoop:
     def __init__(self, plant: Submarine, controller):
