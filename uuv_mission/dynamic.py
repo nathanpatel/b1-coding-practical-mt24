@@ -127,7 +127,10 @@ class ClosedLoop:
         # --- controller: compute error and control action ---
             # e[t] = r[t] - y[t]  (reference minus measured depth)
             e_t = mission.reference[t] - observation_t
+            
+            # Uses PDController.step(e_t) each tick; controller memory (prev_e) carries across ticks.
             u_t = self.controller.step(e_t)
+            
             actions[t] = u_t
         # ----------------------------------------------------
             
