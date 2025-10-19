@@ -23,6 +23,9 @@ class PDController:
     def step(self, e_t: float) -> float:
         """
         Compute the control action for the current error.
+        PD update with explicit variable names for clarity.
+        - proportional_term reacts to *how wrong we are right now*
+        - derivative_term reacts to *how fast the error is changing*
 
         Discrete PD law (unit sample time):
             u[t] = Kp * e[t] + Kd * (e[t] - e[t-1])
@@ -33,13 +36,15 @@ class PDController:
             Control action u_t (float)
         """
 
-        # Estimate the derivative by error difference (Δe = e[t] - e[t-1]).
-        de = e_t - self.prev_e
+        previous_error = self.prev_e          # e[t-1]
+        current_error  = e_t                  # e[t]
 
-        # PD control output
-        u_t = self.kp * e_t + self.kd * de
+        change_in_error = current_error - previous_error  # Δe
+        proportional_term = self.kp * current_error
+        derivative_term   = self.kd * change_in_error
 
-        # Update memory for next call
-        self.prev_e = e_t
-        
+        u_t = proportional_term + derivative_term
+
+        # Remember current error for the next call
+        self.prev_e = current_error
         return u_t
