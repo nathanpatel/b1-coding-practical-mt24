@@ -89,7 +89,7 @@ class Mission:
         """
         
         # Load the CSV into a DataFrame, df
-        df = pd.read_csv('/Users/nathanpatel/Desktop/3rd Year Oxford Engineering/B1/B1_Coding_Practical/b1-coding-practical-mt24/data/mission.csv')
+        df = pd.read_csv('/b1-coding-practical-mt24/data/mission.csv')
         
         # checking that the required columns are present 
         required = ["reference", "cave_height", "cave_depth"]
